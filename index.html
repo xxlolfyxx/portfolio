@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Амир | Портфолио Разработчика</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #21262d;
+        }
+
+        header h1 {
+            color: #f0f6fc;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #8b949e;
+            font-size: 1.1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .stat-card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            color: #58a6ff;
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            color: #8b949e;
+            font-size: 0.9rem;
+        }
+
+        h2 {
+            color: #f0f6fc;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .project-card {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 25px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-2px);
+            border-color: #8b949e;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .project-title {
+            color: #f0f6fc;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-done {
+            background-color: rgba(56, 139, 60, 0.15);
+            color: #3fb950;
+            border: 1px solid rgba(56, 139, 60, 0.4);
+        }
+
+        .status-progress {
+            background-color: rgba(187, 128, 9, 0.15);
+            color: #d29922;
+            border: 1px solid rgba(187, 128, 9, 0.4);
+        }
+
+        .project-desc {
+            color: #8b949e;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.85rem;
+            color: #8b949e;
+            border-top: 1px solid #21262d;
+            padding-top: 15px;
+        }
+
+        .project-meta span strong {
+            color: #c9d1d9;
+        }
+
+        .btn-github {
+            display: inline-block;
+            margin-top: 15px;
+            background-color: #21262d;
+            color: #c9d1d9;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid #f0f6fc1a;
+            font-size: 0.85rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn-github:hover {
+            background-color: #30363d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Амир Иштуганов</h1>
+        <p>Разработчик Python | Автоматизация и Сервисы</p>
+    </header>
+
+    <!-- БЛОК СТАТИСТИКИ ДЛЯ ОТЧЕТА ПАПЕ -->
+    <h2>Сводный отчёт по проектам</h2>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>1</h3>
+            <p>Выполнено проектов</p>
+        </div>
+        <div class="stat-card">
+            <h3>14 часов</h3>
+            <p>Затрачено времени</p>
+        </div>
+        <div class="stat-card">
+            <h3>100%</h3>
+            <p>Успешный деплой (Railway)</p>
+        </div>
+    </div>
+
+    <!-- СПИСОК ПРОЕКТОВ -->
+    <h2>Выполненные работы</h2>
+    <div class="projects-list">
+        
+        <!-- КАРТОЧКА БОТА -->
+        <div class="project-card">
+            <div class="project-header">
+                <div class="project-title">Telegram-бот «Напоминалка»</div>
+                <span class="status-badge status-done">Выполнено / Запущено</span>
+            </div>
+            <p class="project-desc">
+                Умный бот для Telegram, который принимает задачи в свободном формате (как точное время, так и относительное вроде «через 2 минуты»). Полностью синхронизирован с часовым поясом Алматы (Asia/Almaty), автоматически обрабатывает фоновое планирование задач и развернут на облачном сервере Railway.
+            </p>
+            <div class="project-meta">
+                <span>⏱ Время работы: <strong>14 часов</strong></span>
+                <span>💻 Стек: <strong>Python, PyTelegramBotAPI, Schedule, Railway, Git</strong></span>
+            </div>
+            <a href="https://github.com/xxlolfyxx/telegram-reminder-bot" target="_blank" class="btn-github">💻 Исходный код на GitHub</a>
+        </div>
+
+        <!-- ЗАГЛУШКА ПОД СЛЕДУЮЩИЙ ПРОЕКТ -->
+        <div class="project-card" style="opacity: 0.6;">
+            <div class="project-header">
+                <div class="project-title">Новый проект</div>
+                <span class="status-badge status-progress">В планах</span>
+            </div>
+            <p class="project-desc">
+                Место для следующей коммерческой задачи или новой разработки. Статистика и тайм-трекинг обновятся сразу после старта работы.
+            </p>
+            <div class="project-meta">
+                <span>⏱ Время работы: <strong>0 часов</strong></span>
+                <span>💻 Стек: <strong>В разработке</strong></span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
