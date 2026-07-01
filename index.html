@@ -58,7 +58,7 @@
 
         .stat-card h3 {
             color: #58a6ff;
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 5px;
         }
 
@@ -132,6 +132,7 @@
 
         .project-meta {
             display: flex;
+            flex-wrap: wrap;
             gap: 20px;
             font-size: 0.85rem;
             color: #8b949e;
@@ -169,16 +170,16 @@
         <p>Разработчик Python | Автоматизация и Сервисы</p>
     </header>
 
-    <!-- БЛОК СТАТИСТИКИ ДЛЯ ОТЧЕТА ПАПЕ -->
-    <h2>Сводный отчёт по проектам</h2>
+    <h2>Сводный отчёт по коммерческим задачам</h2>
     <div class="stats-grid">
         <div class="stat-card">
             <h3>1</h3>
             <p>Выполнено проектов</p>
         </div>
         <div class="stat-card">
-            <h3>14 часов</h3>
-            <p>Затрачено времени</p>
+            <!-- Сюда JavaScript вставит общее время -->
+            <h3 id="total-time-counter">0ч 0м 0с</h3>
+            <p>Суммарное время работы</p>
         </div>
         <div class="stat-card">
             <h3>100%</h3>
@@ -186,34 +187,36 @@
         </div>
     </div>
 
-    <!-- СПИСОК ПРОЕКТОВ -->
     <h2>Выполненные работы</h2>
     <div class="projects-list">
         
-        <!-- КАРТОЧКА БОТА -->
+        <!-- НАЧАЛО КАРТОЧКИ: TELEGRAM БОТ -->
         <div class="project-card">
             <div class="project-header">
                 <div class="project-title">Telegram-бот «Напоминалка»</div>
                 <span class="status-badge status-done">Выполнено / Запущено</span>
             </div>
             <p class="project-desc">
-                Умный бот для Telegram, который принимает задачи в свободном формате (как точное время, так и относительное вроде «через 2 минуты»). Полностью синхронизирован с часовым поясом Алматы (Asia/Almaty), автоматически обрабатывает фоновое планирование задач и развернут на облачном сервере Railway.
+                Умный бот для Telegram, принимающий задачи как в точном формате времени, так и в относительном (например, «через 2 минуты»). Полностью синхронизирован с часовым поясом Алматы (Asia/Almaty), автоматически обрабатывает фоновое планирование задач и развернут на облачном сервере Railway.
             </p>
             <div class="project-meta">
-                <span>⏱ Время работы: <strong>14 часов</strong></span>
-                <span>💻 Стек: <strong>Python, PyTelegramBotAPI, Schedule, Railway, Git</strong></span>
+                <!-- Сюда JavaScript вставит время конкретного проекта -->
+                <span>⏱ Времени затрачено: <strong id="bot-time-counter">0ч 0м 0с</strong></span>
+                <span>💻 Стек: <strong>Python, Telebot, Schedule, Railway</strong></span>
             </div>
             <a href="https://github.com/xxlolfyxx/telegram-reminder-bot" target="_blank" class="btn-github">💻 Исходный код на GitHub</a>
         </div>
+        <!-- КОНЕЦ КАРТОЧКИ TELEGRAM БОТА -->
 
-        <!-- ЗАГЛУШКА ПОД СЛЕДУЮЩИЙ ПРОЕКТ -->
+
+        <!-- ШАБЛОН ДЛЯ ДУБЛИРОВАНИЯ (КОГДА ПОЯВИТСЯ НОВЫЙ ПРОЕКТ, ПРОСТО СКОПИРУЙ ЭТОТ БЛОК НИЖЕ) -->
         <div class="project-card" style="opacity: 0.6;">
             <div class="project-header">
-                <div class="project-title">Новый проект</div>
+                <div class="project-title">Следующий проект</div>
                 <span class="status-badge status-progress">В планах</span>
             </div>
             <p class="project-desc">
-                Место для следующей коммерческой задачи или новой разработки. Статистика и тайм-трекинг обновятся сразу после старта работы.
+                Место для новой коммерческой задачи от заказчика. Статистика и тайм-трекинг обновятся автоматически сразу после старта разработки.
             </p>
             <div class="project-meta">
                 <span>⏱ Время работы: <strong>0 часов</strong></span>
@@ -223,6 +226,35 @@
 
     </div>
 </div>
+
+<script>
+    // ТУТ НАСТРАИВАЕТСЯ ВРЕМЯ (Год, Месяц [от 0 до 11], День, Часы, Минуты)
+    // Допустим, ты начал делать бота вчера (30 июня) в 15:00
+    const START_DATE = new Date(2026, 5, 30, 15, 0, 0); 
+
+    function updateTimers() {
+        const now = new Date();
+        const diffMs = now - START_DATE;
+
+        if (diffMs < 0) return;
+
+        // Переводим миллисекунды в часы, минуты и секунды
+        const totalSeconds = Math.floor(diffMs / 1000);
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        const timeString = `${hours}ч ${minutes}м ${seconds}с`;
+
+        // Обновляем счетчики на странице
+        document.getElementById("bot-time-counter").innerText = timeString;
+        document.getElementById("total-time-counter").innerText = timeString;
+    }
+
+    // Запускаем обновление каждую секунду
+    setInterval(updateTimers, 1000);
+    updateTimers();
+</script>
 
 </body>
 </html>
