@@ -332,7 +332,13 @@
     });
 
     function togglePayment(btn, key) {
-        if (btn.classList.contains('paid')) return; // уже оплачено — блокируем
+        if (btn.classList.contains('paid')) return;
+        const pass = prompt('Введите пароль:');
+        if (pass === null) return;
+        if (pass !== '100606') {
+            alert('❌ Неверный пароль');
+            return;
+        }
         if (confirm('Отметить как оплачено? Это действие нельзя отменить.')) {
             applyPaid(btn);
             localStorage.setItem('paid_' + key, 'true');
