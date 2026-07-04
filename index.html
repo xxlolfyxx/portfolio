@@ -161,6 +161,42 @@
             background-color: #30363d;
         }
 
+        .btn-payment {
+            display: inline-block;
+            margin-top: 15px;
+            margin-left: 8px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background-color 0.2s, opacity 0.2s;
+            font-weight: bold;
+        }
+
+        .btn-payment.unpaid {
+            background-color: rgba(187, 128, 9, 0.2);
+            color: #d29922;
+            border: 1px solid rgba(187, 128, 9, 0.4);
+        }
+
+        .btn-payment.unpaid:hover {
+            background-color: rgba(187, 128, 9, 0.35);
+        }
+
+        .btn-payment.paid {
+            background-color: rgba(56, 139, 60, 0.2);
+            color: #3fb950;
+            border: 1px solid rgba(56, 139, 60, 0.4);
+            cursor: default;
+            opacity: 0.8;
+        }
+
+        .project-card.paid-card {
+            opacity: 0.6;
+            border-color: rgba(56, 139, 60, 0.3);
+        }
+
         .price-badge {
             background-color: rgba(88, 166, 255, 0.1);
             color: #58a6ff;
@@ -221,6 +257,7 @@
                 <span>💻 Стек: <strong>Python, Telethon, aiogram, Groq AI, Railway</strong></span>
             </div>
             <a href="https://github.com/xxlolfyxx/chat-summary" target="_blank" class="btn-github">💻 Исходный код на GitHub</a>
+            <button class="btn-payment unpaid" onclick="togglePayment(this, 'summaryai')">💰 Ожидает оплаты</button>
         </div>
 
         <div class="project-card">
@@ -239,6 +276,7 @@
                 <span>💻 Стек: <strong>Python, Telebot, Schedule, Railway</strong></span>
             </div>
             <a href="https://github.com/xxlolfyxx/telegram-reminder-bot" target="_blank" class="btn-github">💻 Исходный код на GitHub</a>
+            <button class="btn-payment unpaid" onclick="togglePayment(this, 'reminder')">💰 Ожидает оплаты</button>
         </div>
 
         <div class="project-card">
@@ -257,6 +295,7 @@
             </div>
             <a href="https://github.com/xxlolfyxx/timesync" target="_blank" class="btn-github">💻 Исходный код на GitHub</a>
             <a href="https://xxlolfyxx.github.io/timesync/" target="_blank" class="btn-github" style="margin-left:8px;">🌐 Открыть сайт</a>
+            <button class="btn-payment unpaid" onclick="togglePayment(this, 'timesync')">💰 Ожидает оплаты</button>
         </div>
 
         <div class="project-card">
@@ -275,10 +314,38 @@
             </div>
             <a href="https://github.com/xxlolfyxx/portfolio" target="_blank" class="btn-github">💻 Исходный код на GitHub</a>
             <a href="https://xxlolfyxx.github.io/portfolio/" target="_blank" class="btn-github" style="margin-left:8px;">🌐 Открыть сайт</a>
+            <button class="btn-payment unpaid" onclick="togglePayment(this, 'portfolio')">💰 Ожидает оплаты</button>
         </div>
 
     </div>
 </div>
+
+<script>
+    // Загружаем сохранённые статусы
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.btn-payment').forEach(btn => {
+            const key = btn.getAttribute('onclick').match(/'([^']+)'\)/)[1];
+            if (localStorage.getItem('paid_' + key) === 'true') {
+                applyPaid(btn);
+            }
+        });
+    });
+
+    function togglePayment(btn, key) {
+        if (btn.classList.contains('paid')) return; // уже оплачено — блокируем
+        if (confirm('Отметить как оплачено? Это действие нельзя отменить.')) {
+            applyPaid(btn);
+            localStorage.setItem('paid_' + key, 'true');
+        }
+    }
+
+    function applyPaid(btn) {
+        btn.classList.remove('unpaid');
+        btn.classList.add('paid');
+        btn.textContent = '✅ Оплачено';
+        btn.closest('.project-card').classList.add('paid-card');
+    }
+</script>
 
 </body>
 </html>
