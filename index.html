@@ -226,11 +226,11 @@
     <h2>Сводный отчёт по коммерческим задачам</h2>
     <div class="stats-grid">
         <div class="stat-card">
-            <h3>4</h3>
+            <h3>5</h3>
             <p>Выполнено проектов</p>
         </div>
         <div class="stat-card">
-            <h3>20 000 ₸</h3>
+            <h3>25 000 ₸</h3>
             <p>Заработано</p>
         </div>
         <div class="stat-card">
@@ -258,6 +258,23 @@
             </div>
             <a href="https://github.com/xxlolfyxx/chat-summary" target="_blank" class="btn-github">💻 Исходный код на GitHub</a>
             <button class="btn-payment unpaid" onclick="togglePayment(this, 'summaryai')">💰 Ожидает оплаты</button>
+        </div>
+
+        <div class="project-card">
+            <div class="project-header-top">
+                <div class="project-title">Банный бот — еженедельное голосование</div>
+                <span class="price-badge">5 000 ₸</span>
+            </div>
+            <div class="project-header">
+                <span class="status-badge status-done">✅ Завершён</span>
+            </div>
+            <p class="project-desc">
+                Telegram бот для группы, который каждую среду в 12:00 по Алматы автоматически запускает голосование «Кто идёт в баню в субботу?». Участники голосуют прямо в чате: Иду / Не иду / Под вопросом. Развёрнут на Railway.
+            </p>
+            <div class="project-meta">
+                <span>💻 Стек: <strong>Python, aiogram, APScheduler, Railway</strong></span>
+            </div>
+            <button class="btn-payment unpaid" onclick="togglePayment(this, 'banya')">💰 Ожидает оплаты</button>
         </div>
 
         <div class="project-card">
@@ -321,27 +338,40 @@
 </div>
 
 <script>
-    // Загружаем сохранённые статусы
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.btn-payment').forEach(btn => {
-            const key = btn.getAttribute('onclick').match(/'([^']+)'\)/)[1];
-            if (localStorage.getItem('paid_' + key) === 'true') {
-                applyPaid(btn);
-            }
-        });
+    const API = 'https://payment-api-production-9cbb.up.railway.app';
+
+    // Загружаем статусы с сервера
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const res = await fetch(API + '/payments');
+            const data = await res.json();
+            document.querySelectorAll('.btn-payment').forEach(btn => {
+                const key = btn.getAttribute('onclick').match(/'([^']+)'\)/)[1];
+                if (data[key] === true) applyPaid(btn);
+            });
+        } catch(e) {
+            console.error('Не удалось загрузить статусы:', e);
+        }
     });
 
-    function togglePayment(btn, key) {
+    async function togglePayment(btn, key) {
         if (btn.classList.contains('paid')) return;
         const pass = prompt('Введите пароль:');
         if (pass === null) return;
-        if (pass !== '100606') {
-            alert('❌ Неверный пароль');
-            return;
-        }
-        if (confirm('Отметить как оплачено? Это действие нельзя отменить.')) {
-            applyPaid(btn);
-            localStorage.setItem('paid_' + key, 'true');
+
+        try {
+            const res = await fetch(API + '/payments/' + key + '/pay', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({password: pass})
+            });
+            if (res.status === 403) { alert('❌ Неверный пароль'); return; }
+            if (!res.ok) { alert('Ошибка сервера'); return; }
+            if (confirm('Отметить как оплачено? Это действие нельзя отменить.')) {
+                applyPaid(btn);
+            }
+        } catch(e) {
+            alert('Нет соединения с сервером');
         }
     }
 
